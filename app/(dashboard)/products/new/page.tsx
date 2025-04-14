@@ -13,18 +13,13 @@ export default function AddProductPage() {
   async function handleAddProduct(formData: FormData) {
     'use server';
     
-    try {
-      const result = await addProduct(formData);
-      
-      if (result.success) {
-        redirect('/');
-      }
-      
-      return result;
-    } catch (error) {
-      console.error('Error in handleAddProduct:', error);
-      return { success: false, error };
+    const result = await addProduct(formData);
+    
+    if (result.success) {
+      redirect('/');
     }
+    
+    return result;
   }
 
   return (
