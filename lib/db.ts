@@ -67,7 +67,13 @@ export async function getProducts(
 
   const totalProducts = await db.select({ count: count() }).from(products);
   const moreProducts = await db.select().from(products).limit(5).offset(offset);
-  const newOffset = moreProducts.length === 5 && offset + 5 < totalProducts[0].count ? offset + 5 : null;
+  
+  let newOffset = null;
+  if (moreProducts.length === 5) {
+    if (offset + 5 < totalProducts[0].count) {
+      newOffset = offset + 5;
+    }
+  }
 
   return {
     products: moreProducts,
