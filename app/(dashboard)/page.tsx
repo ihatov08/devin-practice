@@ -15,6 +15,8 @@ export default async function ProductsPage(props: {
     search,
     Number(offset)
   );
+  
+  console.log('Page params:', { search, offset, newOffset, totalProducts, productsLength: products.length });
 
   return (
     <Tabs defaultValue="all">
@@ -47,7 +49,7 @@ export default async function ProductsPage(props: {
       <TabsContent value="all">
         <ProductsTable
           products={products}
-          offset={newOffset ?? 0}
+          offset={Number(offset) + 5}
           totalProducts={totalProducts}
         />
       </TabsContent>
