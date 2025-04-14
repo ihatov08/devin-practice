@@ -17,18 +17,7 @@ export function AddProductForm({ action }: AddProductFormProps) {
     
     try {
       const formData = new FormData(event.currentTarget);
-      
-      const randomId = Math.floor(Math.random() * 1000000);
-      formData.append('random_id', randomId.toString());
-      
-      const result = await action(formData);
-      
-      if (result?.success) {
-        window.location.href = '/';
-      } else {
-        console.error('Form submission failed:', result?.error);
-        setIsSubmitting(false);
-      }
+      await action(formData);
     } catch (error) {
       console.error('Error submitting form:', error);
       setIsSubmitting(false);
