@@ -21,7 +21,7 @@ export async function addProduct(formData: FormData) {
     const stock = Number(formData.get('stock'));
     const availableAt = new Date(formData.get('available_at') as string);
 
-    await db.execute(sql`SELECT setval('products_id_seq', (SELECT COALESCE(MAX(id), 0) FROM products) + 1, false);`);
+    await db.execute(sql`SELECT setval('products_id_seq', (SELECT COALESCE(MAX(id), 0) FROM products), true);`);
 
     const result = await db.insert(products).values({
       imageUrl,
