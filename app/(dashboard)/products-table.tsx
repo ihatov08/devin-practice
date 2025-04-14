@@ -30,8 +30,8 @@ export function ProductsTable({
   offset: number;
   totalProducts: number;
 }) {
-  let router = useRouter();
-  let productsPerPage = 5;
+  const router = useRouter();
+  const productsPerPage = 5;
 
   function prevPage() {
     router.back();
@@ -90,7 +90,7 @@ export function ProductsTable({
           </div>
           <div className="flex">
             <Button
-              formAction={prevPage}
+              onClick={prevPage}
               variant="ghost"
               size="sm"
               type="submit"
@@ -100,7 +100,7 @@ export function ProductsTable({
               Prev
             </Button>
             <Button
-              formAction={nextPage}
+              onClick={nextPage}
               variant="ghost"
               size="sm"
               type="submit"
