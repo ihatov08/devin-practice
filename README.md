@@ -69,4 +69,4 @@ docker run --name postgres-container \
   -d postgres
 ```
 
-Run npm run dev. The app will be available at http://localhost:3000.
+Run pnpm dev. The app will be available at http://localhost:3000.
