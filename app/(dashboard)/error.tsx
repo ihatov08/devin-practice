@@ -15,9 +15,15 @@ export default function Error({
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
-    
-    router.push('/?bypass_error=true');
-  }, [error, router]);
+  }, [error]);
+
+  const handleBypass = () => {
+    window.location.href = '/?bypass_error=true';
+  };
+
+  const handleReset = () => {
+    reset();
+  };
 
   return (
     <main className="p-4 md:p-6">
@@ -45,12 +51,20 @@ export default function Error({
             {`INSERT INTO users (id, email, name, username) VALUES (1, 'me@site.com', 'Me', 'username');`}
           </code>
         </pre>
-        <button 
-          onClick={() => router.push('/?bypass_error=true')} 
-          className="px-4 py-2 bg-blue-500 text-white rounded-md"
-        >
-          Bypass Error
-        </button>
+        <div className="flex space-x-4">
+          <button 
+            onClick={handleBypass} 
+            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
+            Bypass Error
+          </button>
+          <button 
+            onClick={handleReset} 
+            className="px-4 py-2 bg-gray-500 text-white rounded-md"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     </main>
   );
