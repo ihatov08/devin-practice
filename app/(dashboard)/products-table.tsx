@@ -80,11 +80,12 @@ export function ProductsTable({
           <div className="text-xs text-muted-foreground">
             Showing{' '}
             <strong>
-              {Math.max(
-                0,
-                Math.min(offset - productsPerPage, totalProducts) + 1
-              )}
-              -{offset}
+              {products.length === 0
+                ? '0-0'
+                : `${Math.max(offset - productsPerPage + 1, 1)}-${Math.min(
+                    offset,
+                    totalProducts
+                  )}`}
             </strong>{' '}
             of <strong>{totalProducts}</strong> products
           </div>
