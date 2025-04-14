@@ -20,15 +20,17 @@ export async function addProduct(formData: FormData) {
     const stock = Number(formData.get('stock'));
     const availableAt = new Date(formData.get('available_at') as string);
 
-    await db.insert(products).values({
+    const result = await db.insert(products).values({
       imageUrl,
       name,
       status,
       price,
       stock,
       availableAt
-    });
+    }).returning({ id: products.id });
 
+    console.log('Product added successfully:', result);
+    
     revalidatePath('/');
     return { success: true };
   } catch (error) {
