@@ -53,3 +53,20 @@ npm run dev
 ```
 
 You should now be able to access the application at http://localhost:3000.
+
+## Devin
+
+### Setup Local App
+
+Run the following command to start postgresql in Docker
+
+```bash
+docker run --name postgres-container \
+  -e POSTGRES_PASSWORD=yourpassword \
+  -e POSTGRES_DB=yourdatabase \
+  -p 5432:5432 \
+  -v $(pwd)/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d \
+  -d postgres
+```
+
+Run npm run dev. The app will be available at http://localhost:3000.
