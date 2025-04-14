@@ -93,7 +93,7 @@ export function ProductsTable({
               onClick={prevPage}
               variant="ghost"
               size="sm"
-              type="submit"
+              type="button"
               disabled={offset === productsPerPage}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
@@ -103,7 +103,7 @@ export function ProductsTable({
               onClick={nextPage}
               variant="ghost"
               size="sm"
-              type="submit"
+              type="button"
               disabled={offset + productsPerPage > totalProducts}
             >
               Next
