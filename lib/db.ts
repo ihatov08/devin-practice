@@ -1,7 +1,6 @@
 import 'server-only';
 
-import { neon } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-http';
+import { drizzle } from 'drizzle-orm/node-postgres';
 import {
   pgTable,
   text,
@@ -13,8 +12,18 @@ import {
 } from 'drizzle-orm/pg-core';
 import { count, eq, ilike } from 'drizzle-orm';
 import { createInsertSchema } from 'drizzle-zod';
+import { Pool } from 'pg';
 
-export const db = drizzle(neon(process.env.POSTGRES_URL!));
+const { POSTGRES_URL } = process.env;
+if (!POSTGRES_URL) {
+  throw new Error('POSTGRES_URL is not defined');
+}
+
+const pool = new Pool({
+  connectionString: POSTGRES_URL
+});
+
+export const db = drizzle(pool);
 
 export const statusEnum = pgEnum('status', ['active', 'inactive', 'archived']);
 
