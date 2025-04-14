@@ -2,6 +2,7 @@
 
 import { deleteProductById, db, products } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { sql } from 'drizzle-orm';
 
 export async function deleteProduct(formData: FormData) {
   const id = Number(formData.get('id'));
@@ -19,6 +20,8 @@ export async function addProduct(formData: FormData) {
     const price = Number(formData.get('price'));
     const stock = Number(formData.get('stock'));
     const availableAt = new Date(formData.get('available_at') as string);
+
+    await db.execute(sql`SELECT setval('products_id_seq', (SELECT COALESCE(MAX(id), 0) FROM products) + 1, false);`);
 
     const result = await db.insert(products).values({
       imageUrl,
