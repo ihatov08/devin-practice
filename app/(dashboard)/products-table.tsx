@@ -38,7 +38,8 @@ export function ProductsTable({
   }
 
   function nextPage() {
-    router.push(`/?offset=${offset + productsPerPage}`, { scroll: false });
+    const nextOffset = offset || 5;
+    router.push(`/?offset=${nextOffset}`, { scroll: false });
   }
 
   return (
