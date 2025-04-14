@@ -33,26 +33,24 @@ export function ProductsTable({
 }) {
   const router = useRouter();
   const productsPerPage = 5;
-  const currentOffset = Number(offset) - productsPerPage;
-
   useEffect(() => {
     router.refresh();
   }, [router]);
 
   function prevPage() {
-    const prevOffset = Math.max(currentOffset - productsPerPage, 0);
+    const prevOffset = Math.max(offset - productsPerPage, 0);
     router.push(`/?offset=${prevOffset}`, { scroll: false });
   }
 
   function nextPage() {
-    const nextOffset = currentOffset + productsPerPage;
+    const nextOffset = offset + productsPerPage;
     if (nextOffset < totalProducts) {
       router.push(`/?offset=${nextOffset}`, { scroll: false });
     }
   }
 
-  const startIndex = currentOffset + 1;
-  const endIndex = Math.min(currentOffset + products.length, totalProducts);
+  const startIndex = offset + 1;
+  const endIndex = Math.min(offset + products.length, totalProducts);
   const showingText = products.length === 0 
     ? '0-0' 
     : `${startIndex}-${endIndex}`;
@@ -109,7 +107,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="button"
-              disabled={currentOffset <= 0}
+              disabled={offset <= 0}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -119,7 +117,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="button"
-              disabled={currentOffset + productsPerPage >= totalProducts}
+              disabled={offset + productsPerPage >= totalProducts}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
