@@ -34,7 +34,7 @@ export async function addProduct(formData: FormData) {
 
     console.log('Product added successfully:', result);
     
-    revalidatePath('/');
+    revalidatePath('/', 'layout');
     return { success: true };
   } catch (error) {
     console.error('Error adding product:', error);

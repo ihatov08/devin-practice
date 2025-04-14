@@ -20,6 +20,7 @@ import { SelectProduct } from '@/lib/db';
 import { useRouter } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useEffect } from 'react';
 
 export function ProductsTable({
   products,
@@ -32,16 +33,29 @@ export function ProductsTable({
 }) {
   const router = useRouter();
   const productsPerPage = 5;
+  const currentOffset = Number(offset) - productsPerPage;
+
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
 
   function prevPage() {
-    router.back();
+    const prevOffset = Math.max(currentOffset - productsPerPage, 0);
+    router.push(`/?offset=${prevOffset}`, { scroll: false });
   }
 
   function nextPage() {
-    const currentOffset = Number(offset);
-    const nextOffset = currentOffset === 0 ? 5 : currentOffset + 5;
-    router.push(`/?offset=${nextOffset}`, { scroll: false });
+    const nextOffset = currentOffset + productsPerPage;
+    if (nextOffset < totalProducts) {
+      router.push(`/?offset=${nextOffset}`, { scroll: false });
+    }
   }
+
+  const startIndex = currentOffset + 1;
+  const endIndex = Math.min(currentOffset + products.length, totalProducts);
+  const showingText = products.length === 0 
+    ? '0-0' 
+    : `${startIndex}-${endIndex}`;
 
   return (
     <Card>
@@ -74,22 +88,20 @@ export function ProductsTable({
             {products.map((product) => (
               <Product key={product.id} product={product} />
             ))}
+            {products.length === 0 && (
+              <TableRow>
+                <TableHead colSpan={7} className="text-center py-4">
+                  No products found
+                </TableHead>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </CardContent>
       <CardFooter>
         <form className="flex items-center w-full justify-between">
           <div className="text-xs text-muted-foreground">
-            Showing{' '}
-            <strong>
-              {products.length === 0
-                ? '0-0'
-                : `${Math.max(offset - productsPerPage + 1, 1)}-${Math.min(
-                    offset,
-                    totalProducts
-                  )}`}
-            </strong>{' '}
-            of <strong>{totalProducts}</strong> products
+            Showing <strong>{showingText}</strong> of <strong>{totalProducts}</strong> products
           </div>
           <div className="flex">
             <Button
@@ -97,7 +109,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="button"
-              disabled={offset === productsPerPage}
+              disabled={currentOffset <= 0}
             >
               <ChevronLeft className="mr-2 h-4 w-4" />
               Prev
@@ -107,7 +119,7 @@ export function ProductsTable({
               variant="ghost"
               size="sm"
               type="button"
-              disabled={offset + productsPerPage > totalProducts}
+              disabled={currentOffset + productsPerPage >= totalProducts}
             >
               Next
               <ChevronRight className="ml-2 h-4 w-4" />
