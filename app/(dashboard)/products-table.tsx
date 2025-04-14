@@ -38,7 +38,8 @@ export function ProductsTable({
   }
 
   function nextPage() {
-    const nextOffset = offset || 5;
+    const currentOffset = Number(offset);
+    const nextOffset = currentOffset === 0 ? 5 : currentOffset + 5;
     router.push(`/?offset=${nextOffset}`, { scroll: false });
   }
 
